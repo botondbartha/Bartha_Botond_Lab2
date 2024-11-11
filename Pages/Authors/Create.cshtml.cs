@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Bartha_Botond_Lab2.Data;
 using Bartha_Botond_Lab2.Models;
 
-namespace Bartha_Botond_Lab2.Pages.Books
+namespace Bartha_Botond_Lab2.Pages.Authors
 {
     public class CreateModel : PageModel
     {
@@ -21,12 +21,11 @@ namespace Bartha_Botond_Lab2.Pages.Books
 
         public IActionResult OnGet()
         {
-            ViewData["AuthorID"] = new SelectList(_context.Set<Author>(), "ID", "LastName");
             return Page();
         }
 
         [BindProperty]
-        public Book Book { get; set; } = default!;
+        public Author Author { get; set; } = default!;
 
         // For more information, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
@@ -36,7 +35,7 @@ namespace Bartha_Botond_Lab2.Pages.Books
                 return Page();
             }
 
-            _context.Book.Add(Book);
+            _context.Author.Add(Author);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
