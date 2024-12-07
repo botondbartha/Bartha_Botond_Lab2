@@ -1,41 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Bartha_Botond_Lab2.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Bartha_Botond_Lab2.Data;
-using Bartha_Botond_Lab2.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Bartha_Botond_Lab2.Pages.Books
 {
     public class CreateModel : BookCategoriesPageModel
     {
         private readonly Bartha_Botond_Lab2.Data.Bartha_Botond_Lab2Context _context;
-
         public CreateModel(Bartha_Botond_Lab2.Data.Bartha_Botond_Lab2Context context)
         {
             _context = context;
         }
-
         public IActionResult OnGet()
         {
-       /* var authorList = _context.Author.Select(x => new
-            {
-                 x.ID,
-                 FullName = x.LastName + " " + x.FirstName
-                    });
-       */
-            ViewData["AuthorID"] = new SelectList(_context.Set<Author>(), "ID", "LastName");
+            var authorList = _context.Author.Select(x => new
+             {
+             x.ID,
+             FullName = x.LastName + " " + x.FirstName
+             });
+            
+            // daca am adaugat o proprietate FullName in clasa Author
+            ViewData["AuthorID"] = new SelectList(authorList, "ID", "FullName");
             ViewData["PublisherID"] = new SelectList(_context.Publisher, "ID",
-"PublisherName");
+           "PublisherName");
+
             var book = new Book();
             book.BookCategories = new List<BookCategory>();
-            PopulateAssignedCategoryData(_context, book);
+            PopulateAssignedCategoryData(_context, book, GetAssignedCategoryDataList());
             return Page();
         }
-
         [BindProperty]
         public Book Book { get; set; }
         public async Task<IActionResult> OnPostAsync(string[] selectedCategories)
@@ -58,6 +51,6 @@ namespace Bartha_Botond_Lab2.Pages.Books
             await _context.SaveChangesAsync();
             return RedirectToPage("./Index");
         }
+
     }
-    
 }

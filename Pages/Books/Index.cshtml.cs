@@ -28,12 +28,12 @@ namespace Bartha_Botond_Lab2.Pages.Books
             BookD = new BookData();
 
             BookD.Books = await _context.Book
-            .Include(b => b.Publisher)
-            .Include(b => b.BookCategories)
-            .ThenInclude(b => b.Category)
-            .AsNoTracking()
-            .OrderBy(b => b.Title)
-            .ToListAsync();
+                   .Include(b => b.Publisher)
+                   .Include(b => b.BookCategories)
+                   .ThenInclude(b => b.Category)
+                   .AsNoTracking()
+                   .OrderBy(b => b.Title)
+                   .ToListAsync();
             if (id != null)
             {
                 BookID = id.Value;
@@ -42,6 +42,7 @@ namespace Bartha_Botond_Lab2.Pages.Books
                 BookD.Categories = book.BookCategories.Select(s => s.Category);
             }
         }
+    }
 
     }
-}
+

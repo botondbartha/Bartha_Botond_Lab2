@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Bartha_Botond_Lab2.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc;
+
 
 namespace Bartha_Botond_Lab2.Pages.Books
 {
@@ -24,29 +27,30 @@ namespace Bartha_Botond_Lab2.Pages.Books
             {
                 return NotFound();
             }
+            //se va include Author conform cu sarcina de la lab 2
             Book = await _context.Book
-             .Include(b => b.Publisher)
-             .Include(b => b.BookCategories).ThenInclude(b => b.Category)
-             .AsNoTracking()
-             .FirstOrDefaultAsync(m => m.ID == id);
+            .Include(b => b.Publisher)
+            .Include(b => b.BookCategories).ThenInclude(b => b.Category)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(m => m.ID == id);
             if (Book == null)
             {
                 return NotFound();
             }
             //apelam PopulateAssignedCategoryData pentru o obtine informatiile necesare checkbox-
-            PopulateAssignedCategoryData(_context, Book);
+            //urilor folosind clasa AssignedCategoryData
+            PopulateAssignedCategoryData(_context, Book, GetAssignedCategoryDataList());
             var authorList = _context.Author.Select(x => new
             {
                 x.ID,
                 FullName = x.LastName + " " + x.FirstName
             });
             ViewData["AuthorID"] = new SelectList(authorList, "ID", "FullName");
-            ViewData["PublisherID"] = new SelectList(_context.Publisher, "ID",
-           "PublisherName");
+            ViewData["PublisherID"] = new SelectList(_context.Publisher, "ID", "PublisherName");
             return Page();
         }
         public async Task<IActionResult> OnPostAsync(int? id, string[]
-selectedCategories)
+        selectedCategories)
         {
             if (id == null)
             {
@@ -76,7 +80,7 @@ selectedCategories)
             //Apelam UpdateBookCategories pentru a aplica informatiile din checkboxuri la entitatea Books care
             //este editata
             UpdateBookCategories(_context, selectedCategories, bookToUpdate);
-            PopulateAssignedCategoryData(_context, bookToUpdate);
+            PopulateAssignedCategoryData(_context, bookToUpdate, GetAssignedCategoryDataList());
             return Page();
         }
     }
