@@ -17,6 +17,6 @@ namespace Bartha_Botond_Lab2.Data
         public DbSet<Bartha_Botond_Lab2.Models.Book> Book { get; set; } = default!;
         public DbSet<Bartha_Botond_Lab2.Models.Publisher> Publisher { get; set; } = default!;
         public DbSet<Bartha_Botond_Lab2.Models.Author> Author { get; set; } = default!;
-        public IEnumerable<object> Category { get; internal set; }
+        public DbSet<Bartha_Botond_Lab2.Models.Category> Category { get; set; } = default!;
     }
 }

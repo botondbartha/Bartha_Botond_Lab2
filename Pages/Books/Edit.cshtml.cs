@@ -29,10 +29,12 @@ namespace Bartha_Botond_Lab2.Pages.Books
             }
             //se va include Author conform cu sarcina de la lab 2
             Book = await _context.Book
-            .Include(b => b.Publisher)
-            .Include(b => b.BookCategories).ThenInclude(b => b.Category)
-            .AsNoTracking()
-            .FirstOrDefaultAsync(m => m.ID == id);
+                .Include(b => b.Publisher)
+                .Include(b => b.BookCategories).ThenInclude(b => b.Category)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(m => m.ID == id);
+
+            var book = await _context.Book.FirstOrDefaultAsync(m => m.ID == id);
             if (Book == null)
             {
                 return NotFound();
@@ -58,9 +60,10 @@ namespace Bartha_Botond_Lab2.Pages.Books
             }
             //se va include Author conform cu sarcina de la lab 2
             var bookToUpdate = await _context.Book
+            .Include(i => i.Author) //Conform Cerintei
             .Include(i => i.Publisher)
             .Include(i => i.BookCategories)
-            .ThenInclude(i => i.Category)
+                .ThenInclude(i => i.Category)
             .FirstOrDefaultAsync(s => s.ID == id);
             if (bookToUpdate == null)
             {
