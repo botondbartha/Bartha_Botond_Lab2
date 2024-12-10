@@ -30,7 +30,7 @@ namespace Bartha_Botond_Lab2.Pages.Books
             ViewData["PublisherID"] = new SelectList(_context.Publisher, "ID", "PublisherName");
 
             var book = new Book();
-           // book.BookCategories = new List<BookCategory>();
+           book.BookCategories = new List<BookCategory>();
             var assignedCategoryDataList = new List<AssignedCategoryData>();
             PopulateAssignedCategoryData(_context, book );
             return Page();

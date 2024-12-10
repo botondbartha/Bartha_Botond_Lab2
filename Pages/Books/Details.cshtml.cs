@@ -28,15 +28,20 @@ namespace Bartha_Botond_Lab2.Pages.Books
                 return NotFound();
             }
 
-            var book = await _context.Book.FirstOrDefaultAsync(m => m.ID == id);
-            if (book == null)
+      //      var book = await _context.Book.FirstOrDefaultAsync(m => m.ID == id);
+            Book = await _context.Book
+              .Include(b => b.Author)  // Adăugăm Include pentru Author
+              .Include(b => b.Publisher)  // Include pentru Publisher dacă e necesar
+              .FirstOrDefaultAsync(m => m.ID == id);
+
+            if (Book == null)
             {
                 return NotFound();
             }
-            else
+        /*    else
             {
                 Book = book;
-            }
+            }*/
             return Page();
         }
     }
