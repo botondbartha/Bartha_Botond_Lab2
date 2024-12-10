@@ -2,38 +2,42 @@
 using Bartha_Botond_Lab2.Data;
 namespace Bartha_Botond_Lab2.Models
 {
-    public class BookCategoriesPageModel:PageModel
- {
- public List<AssignedCategoryData> AssignedCategoryDataList;
+    public class BookCategoriesPageModel : PageModel
+    {
+        public List<AssignedCategoryData> AssignedCategoryDataList;
 
-        public List<AssignedCategoryData> GetAssignedCategoryDataList()
-        {
-            return AssignedCategoryDataList;
-        }
-
-        public void PopulateAssignedCategoryData(Bartha_Botond_Lab2Context context,
-        Book book, List<AssignedCategoryData> AssignedCategoryDataList)
+        public void PopulateAssignedCategoryData(Bartha_Botond_Lab2Context context, Book book)
         {
             var allCategories = context.Category;
             var bookCategories = new HashSet<int>(
-            book.BookCategories.Select(c => c.CategoryID)); 
-            this.AssignedCategoryDataList = new List<AssignedCategoryData>();
+                book.BookCategories.Select(c => c.CategoryID)); 
+            AssignedCategoryDataList = new List<AssignedCategoryData>();
             foreach (var cat in allCategories)
             {
-                AssignedCategoryDataList.Add(new AssignedCategoryData { CategoryID = cat.ID, Name = cat.CategoryName, Assigned = bookCategories.Contains(cat.ID) });
+                AssignedCategoryDataList.Add(new AssignedCategoryData
+                {
+                    CategoryID = cat.ID,
+                    Name = cat.CategoryName,
+                    Assigned = bookCategories.Contains(cat.ID)
+                });
             }
         }
-        public void UpdateBookCategories(Bartha_Botond_Lab2Context context,
-        string[] selectedCategories, Book bookToUpdate)
+
+        public void UpdateBookCategories(
+            Bartha_Botond_Lab2Context context,
+            string[] selectedCategories,
+            Book bookToUpdate)
         {
             if (selectedCategories == null)
             {
                 bookToUpdate.BookCategories = new List<BookCategory>();
                 return;
             }
+
             var selectedCategoriesHS = new HashSet<string>(selectedCategories);
-            var bookCategories = new HashSet<int>
-            (bookToUpdate.BookCategories.Select(c => c.Category.ID));
+            var bookCategories = new HashSet<int>(
+                bookToUpdate.BookCategories.Select(c => c.Category.ID));
+
             foreach (var cat in context.Category)
             {
                 if (selectedCategoriesHS.Contains(cat.ID.ToString()))
@@ -41,22 +45,21 @@ namespace Bartha_Botond_Lab2.Models
                     if (!bookCategories.Contains(cat.ID))
                     {
                         bookToUpdate.BookCategories.Add(
-                        new BookCategory
-                        {
-                            BookID = bookToUpdate.ID,
-                            CategoryID = cat.ID
-                        });
+                            new BookCategory
+                            {
+                                BookID = bookToUpdate.ID,
+                                CategoryID = cat.ID
+                            });
                     }
                 }
                 else
                 {
                     if (bookCategories.Contains(cat.ID))
                     {
-                        BookCategory courseToRemove
-                        = bookToUpdate
-                        .BookCategories
-                        .SingleOrDefault(i => i.CategoryID == cat.ID);
-                        context.Remove(courseToRemove);
+                        BookCategory categoryToRemove = bookToUpdate
+                            .BookCategories
+                            .SingleOrDefault(i => i.CategoryID == cat.ID);
+                        context.Remove(categoryToRemove);
                     }
                 }
             }

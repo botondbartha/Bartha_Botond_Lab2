@@ -19,7 +19,7 @@ namespace Bartha_Botond_Lab2.Pages.Categories
             _context = context;
         }
 
-        public Author Author { get; set; } = default!;
+        public Category Category { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -28,14 +28,14 @@ namespace Bartha_Botond_Lab2.Pages.Categories
                 return NotFound();
             }
 
-            var author = await _context.Author.FirstOrDefaultAsync(m => m.ID == id);
-            if (author == null)
+            var category = await _context.Category.FirstOrDefaultAsync(m => m.ID == id);
+            if (category == null)
             {
                 return NotFound();
             }
             else
             {
-                Author = author;
+                Category = category;
             }
             return Page();
         }

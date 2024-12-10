@@ -41,7 +41,7 @@ namespace Bartha_Botond_Lab2.Pages.Books
             }
             //apelam PopulateAssignedCategoryData pentru o obtine informatiile necesare checkbox-
             //urilor folosind clasa AssignedCategoryData
-            PopulateAssignedCategoryData(_context, Book, GetAssignedCategoryDataList());
+            PopulateAssignedCategoryData(_context, Book );
             var authorList = _context.Author.Select(x => new
             {
                 x.ID,
@@ -73,7 +73,7 @@ namespace Bartha_Botond_Lab2.Pages.Books
             if (await TryUpdateModelAsync<Book>(
             bookToUpdate,
             "Book",
-            i => i.Title, i => i.Author,
+            i => i.Title, i => i.AuthorID,
             i => i.Price, i => i.PublishingDate, i => i.PublisherID))
             {
                 UpdateBookCategories(_context, selectedCategories, bookToUpdate);
@@ -83,7 +83,7 @@ namespace Bartha_Botond_Lab2.Pages.Books
             //Apelam UpdateBookCategories pentru a aplica informatiile din checkboxuri la entitatea Books care
             //este editata
             UpdateBookCategories(_context, selectedCategories, bookToUpdate);
-            PopulateAssignedCategoryData(_context, bookToUpdate, GetAssignedCategoryDataList());
+            PopulateAssignedCategoryData(_context, bookToUpdate);
             return Page();
         }
     }

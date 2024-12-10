@@ -21,7 +21,7 @@ namespace Bartha_Botond_Lab2.Pages.Categories
         }
 
         [BindProperty]
-        public Author Author { get; set; } = default!;
+        public Category Category { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -30,12 +30,12 @@ namespace Bartha_Botond_Lab2.Pages.Categories
                 return NotFound();
             }
 
-            var author =  await _context.Author.FirstOrDefaultAsync(m => m.ID == id);
-            if (author == null)
+            var category = await _context.Category.FirstOrDefaultAsync(m => m.ID == id);
+            if (category == null)
             {
                 return NotFound();
             }
-            Author = author;
+            Category = category;
             return Page();
         }
 
@@ -48,7 +48,7 @@ namespace Bartha_Botond_Lab2.Pages.Categories
                 return Page();
             }
 
-            _context.Attach(Author).State = EntityState.Modified;
+            _context.Attach(Category).State = EntityState.Modified;
 
             try
             {
@@ -56,7 +56,7 @@ namespace Bartha_Botond_Lab2.Pages.Categories
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!AuthorExists(Author.ID))
+                if (!CategoryExists(Category.ID))
                 {
                     return NotFound();
                 }
@@ -69,9 +69,9 @@ namespace Bartha_Botond_Lab2.Pages.Categories
             return RedirectToPage("./Index");
         }
 
-        private bool AuthorExists(int id)
+        private bool CategoryExists(int id)
         {
-            return _context.Author.Any(e => e.ID == id);
+            return _context.Category.Any(e => e.ID == id);
         }
     }
 }

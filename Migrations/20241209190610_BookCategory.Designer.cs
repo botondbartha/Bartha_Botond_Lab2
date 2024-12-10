@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bartha_Botond_Lab2.Migrations
 {
     [DbContext(typeof(Bartha_Botond_Lab2Context))]
-    [Migration("20241208083853_BookCategory")]
+    [Migration("20241209190610_BookCategory")]
     partial class BookCategory
     {
         /// <inheritdoc />
