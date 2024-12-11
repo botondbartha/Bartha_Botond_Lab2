@@ -8,10 +8,12 @@ using Microsoft.EntityFrameworkCore;
 using Bartha_Botond_Lab2.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace Bartha_Botond_Lab2.Pages.Books
 {
+    [Authorize(Roles = "Admin")]
     public class EditModel : BookCategoriesPageModel
     {
         private readonly Bartha_Botond_Lab2.Data.Bartha_Botond_Lab2Context _context;

@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Bartha_Botond_Lab2.Data;
 using Bartha_Botond_Lab2.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Bartha_Botond_Lab2.Pages.Books
 {
+    [Authorize(Roles = "Admin")]
     public class CreateModel : BookCategoriesPageModel
     {
         private readonly Bartha_Botond_Lab2.Data.Bartha_Botond_Lab2Context _context;

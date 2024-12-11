@@ -1,17 +1,22 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Policy;
+using static Microsoft.AspNetCore.Razor.Language.TagHelperMetadata;
 
 namespace Bartha_Botond_Lab2.Models
 {
     public class Book
     {   
         public int ID { get; set; }
-
         [Display(Name = "Book Title")]
+        //  Sarcina laborator 2 : modificati clasa Book astfel incat la salvarea datelor titlul cartii sa fie completat obiligatoriu,
+        //  lungimea maxima pentru titlu sa fie de 150 de caractere si o lungime minima de 3 caractere
+        [Required(ErrorMessage = "Este necsar ca sa introduci un titlu pentru carte")]
+        [StringLength(150, MinimumLength = 3, ErrorMessage = "Titlul trebuie sa contina intre 3 si 150 de caractere")]
         public string Title { get; set; }
 
-        [Column(TypeName = "decimal(6, 2)")]
+        [Column(TypeName = "decimal(6, 2)")] 
+        [Range(0.01, 500)]
         public decimal Price { get; set; }
 
         [DataType(DataType.Date)]
